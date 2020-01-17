@@ -1,10 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jan 17 10:28:41 2020
 
-@author: parshan
-"""
 from discreteSpace import DiscreteSpace
 from continuousSpace import ContinuousSpace
 
