@@ -1,10 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jan 17 10:39:02 2020
 
-@author: parshan
-"""
 from continuousSpace import ContinuousSpace
 from numpy import ndarray
 
