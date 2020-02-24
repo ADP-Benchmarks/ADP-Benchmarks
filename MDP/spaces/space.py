@@ -40,9 +40,9 @@ class Space():
             The constructor of Space object.
         """
         assert(isinstance(isContinuous,bool))
-        assert(isinstance(dim,int))
-        assert(dim > 0)
-        
+        assert(isinstance(dim,int) and dim > 0),"Space dimension should be a\
+        positive integer"
+
         self.isContinuous = isContinuous
         self.dim          = dim  
         
