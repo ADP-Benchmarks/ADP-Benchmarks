@@ -14,8 +14,8 @@ License
 -------
     The MIT License  
 """
-
-from spaces.space import Space
+import numpy as np
+from MDP.spaces.space import Space
 
 class Transition():
     """
@@ -43,11 +43,11 @@ class Transition():
         ------------
             The constructor of Space object.
         """
-        assert(isinstance(sSpace,Space))
-        assert(isinstance(aSpace,Space))
+        # assert(isinstance(sSpace,Space))
+        # assert(isinstance(aSpace,Space))
         
         self.sSpace = sSpace
-        self.aSpace = sSpace
+        self.aSpace = aSpace
 
     def getNextState(self, curState,curAction,numNextState=None):
         """
@@ -100,5 +100,5 @@ class Transition():
         """
         assert(self.sSpace.isStateFeasble(curState))
         assert(self.aSpace.isStateActionFeasble(curState,curAction))
-        pass
+        raise NotImplementedError
 

@@ -15,7 +15,7 @@ License
     The MIT License  
 """
 
-from spaces.space import Space
+from MDP.spaces.space import Space
 from numpy import ndarray
 from sampling.sampler import BallSampler
 

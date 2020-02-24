@@ -14,8 +14,8 @@ License
 -------
     The MIT License  
 """
-
-from spaces.space import Space
+import numpy as np
+from MDP.spaces.space import Space
 
 class Objective:
     """
@@ -53,13 +53,13 @@ class Objective:
             The constructor of MDP objective function class.
         """
         
-        assert(isinstance(sSpace,Space))
-        assert(isinstance(aSpace,Space))
+        # assert(isinstance(sSpace,Space))
+        # assert(isinstance(aSpace,Space))
         assert(isinstance(isMinCost,bool))
         assert(isinstance(isDeterministic,bool))
         
         self.sSpace = sSpace
-        self.aSpace = sSpace
+        self.aSpace = aSpace
         self.isMinCost = isMinCost
         self.isDeterministic = isDeterministic
     
@@ -117,7 +117,7 @@ class Objective:
         """        
         assert(self.sSpace.isStateFeasble(curState))
         assert(self.aSpace.isStateActionFeasble(curState,curAction))
-        pass
+        raise NotImplementedError
     
     
         
