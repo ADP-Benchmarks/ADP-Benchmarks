@@ -15,8 +15,8 @@ License
     The MIT License  
 """
 
-from spaces.space import Space
-from numpy import ndarray
+from MDP.spaces.space import Space
+import numpy as np
 from sampling.sampler import CubeSampler
 
 class Cube(Space):
@@ -31,8 +31,8 @@ class Cube(Space):
         """
         Inputs
         ------
-            intervals [ndarray]: intervals define ranges of the hypercube.
-                                 For example, the following array 
+            intervals [np.ndarray]: intervals define ranges of the hypercube.
+                                 For estateample, the following array 
                                  np.asarray([[-2,3] , [4,5], [2,3] , [-6,5]])
                                  defines 4-dimensional hypercube given by
                                  [-2,3]*[4,5]*[2,3]*[-6,5].
@@ -46,11 +46,19 @@ class Cube(Space):
         """
         
         assert(isinstance(isContinuous,bool))
-        assert(isinstance(intervals,ndarray))
+        assert(isinstance(intervals,np.ndarray))
         
         super(Cube, self).__init__(isContinuous=isContinuous,
                                    dim=intervals.shape[0])
         self.intervals = intervals
+        if len(self.intervals.shape) == 1:
+            self.low  = self.intervals[0]
+            self.high = self.intervals[1]
+            self.shape = (1,)
+        else:
+            self.low  = self.intervals[:,0]
+            self.high = self.intervals[:,1]
+            self.shape = self.low.shape 
     
     
     def sample(self,numSamples=1):
@@ -69,4 +77,45 @@ class Cube(Space):
         """ 
         assert(isinstance(numSamples,int))
         return CubeSampler(self).sample(numSamples)
+    
+    
+    def isStateFeasble(self, s):
+        """
+        Inputs
+        ------
+            s [list]: state vector.
+            
+        Raises/Returns
+        --------------
+            [bool]: True if the state is feasible, False otherwise.
+            
+        Explanations
+        ------------
+            Checks if the provided state is feasible in the MDP state space 
+        """ 
+        
+        s = np.array(s)  if isinstance(s, list) else s
+        return s.shape == self.shape and np.all(s >= self.low) and np.all(s <= self.high)
+
+    def isStateActionFeasble(self, s, a):
+        """
+        Inputs
+        ------
+            s [list]: the state vecor.
+            
+            a [list]: the action vector
+            
+        Raises/Returns
+        --------------
+            [bool]: True if the provided action is feasible, False otherwise.
+            
+        Explanations
+        ------------
+            Checks if the current action is feasible in the given state
+        """ 
+        if isinstance(a, list):
+            a = np.array(a)  
+        elif isinstance(a, int):    
+            a = np.array([a])  
+        return a.shape == self.shape and np.all(a >= self.low) and np.all(a <= self.high)
         
