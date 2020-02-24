@@ -15,8 +15,8 @@ License
     The MIT License  
 """
 
-from numpy import asarray
-from scipy.stats import uniform
+import numpy as np
+# from scipy.stats import uniform
 
 
 class CubeSampler():
@@ -40,11 +40,14 @@ class CubeSampler():
         """
         
         self.intervals = cube.intervals
+        self.low = cube.low
+        self.high = cube.high
         self.dim       = cube.dim
+        self.shape = cube.shape
         self.isContinuous = cube.isContinuous
         
     
-    def sample(self,numSamples):
+    def sample(self,numSamples=1):
         """
         Inputs
         ------
@@ -58,13 +61,27 @@ class CubeSampler():
         ------------
             This function samples a batch of uniform points in a hypercube.
         """ 
+        
+        sample = np.random.uniform(low=self.low, 
+                                   high=self.high,
+                                   size=(numSamples,self.shape[0])) 
         if self.isContinuous:
-            return asarray([list(uniform(self.intervals[i][0],
-                                         self.intervals[i][1]).rvs(numSamples))
-                            for i in range(self.dim)]
-                           ).T
+            # return np.asarray([list(uniform(self.intervals[i][0],
+            #                               self.intervals[i][1]).rvs(numSamples))
+            #                 for i in range(self.dim)]
+            #                 ).T
+            
+            # vectorized sampling
+            # widths = self.high - self.low
+            # return self.low + widths*np.random.uniform(
+            #                               size=(numSamples, self.shape[0]))
+            return sample
+        
         else:
-            raise NotImplementedError   
+
+            sample = np.floor(sample)
+
+            return sample.astype('int32')            
 
 class BallSampler():
     """
