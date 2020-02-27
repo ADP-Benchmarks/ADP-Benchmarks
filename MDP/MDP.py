@@ -83,6 +83,7 @@ class MDP:
         assert sSpace.isStateFeasble(initState), 'Intial state should belong to\
                                                   the state space'
         
+        #TODO initState -> initDist
         self.initState = initState
         self.terminalStates = terminalStates
         self.sSpace = sSpace
@@ -124,6 +125,9 @@ class MDP:
                     in the finite horizon case
             
         '''
+        
+        #TODO This function should support generating a list of next states
+        
         if not force_noise:
             noise = self.nSpace.sample()[0]
         else:
