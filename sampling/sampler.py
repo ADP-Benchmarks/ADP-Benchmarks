@@ -114,7 +114,6 @@ class BallSampler():
         self.shape = ball.shape
         self.isContinuous = ball.isContinuous
     
-    
     def sample(self,numSamples):
         """
         Inputs
@@ -130,7 +129,7 @@ class BallSampler():
             This function samples a batch of uniform points in a ball.
         """ 
         
-        def random_number_in_unit_ball():
+        def random_vector_in_unit_ball():
             """
             Returns
             --------------
@@ -146,7 +145,7 @@ class BallSampler():
             d = d[:, np.newaxis]
             return x / d
         
-        unit_sample = random_number_in_unit_ball()
+        unit_sample = random_vector_in_unit_ball()
         sample = unit_sample * self.radius + self.center
         if self.isContinuous:
             return sample.tolist()
