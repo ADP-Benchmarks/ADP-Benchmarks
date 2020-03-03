@@ -94,6 +94,12 @@ class Cube(Space):
             Checks if the provided state is feasible in the MDP state space 
         """ 
         
+        '''
+        TODO: 
+            my understanding is s is a single state.
+            if I'm correct, we may want to add something like s = s.reshape(-1)
+        '''
+        
         s = np.array(s)  if isinstance(s, list) else s
         return s.shape == self.shape and np.all(s >= self.low) and np.all(s <= self.high)
 
@@ -113,6 +119,12 @@ class Cube(Space):
         ------------
             Checks if the current action is feasible in the given state
         """ 
+        
+        '''
+        TODO: 
+            I think this is kind of confusing. This function indicates that the state space and the action space 
+            are the same since they both use self.low and self.high to judge. But this might not be true.
+        '''
         if isinstance(a, list):
             a = np.array(a)  
         elif isinstance(a, int):    

@@ -62,6 +62,11 @@ class CubeSampler():
             This function samples a batch of uniform points in a hypercube.
         """ 
         
+        '''
+        TODO: 
+            shall we consider latin hypercube sampling? it is more uniformly distributed in high dimesion.
+        '''
+        
         sample = np.random.uniform(low=self.low, 
                                    high=self.high,
                                    size=(numSamples,self.shape[0])) 
@@ -105,6 +110,8 @@ class BallSampler():
         
         self.center = ball.center
         self.radius = ball.radius
+        self.dim = ball.dim
+        self.shape = ball.shape
         self.isContinuous = ball.isContinuous
     
     
@@ -122,7 +129,29 @@ class BallSampler():
         ------------
             This function samples a batch of uniform points in a ball.
         """ 
+        
+        def random_number_in_unit_ball():
+            """
+            Returns
+            --------------
+                [ndarray] numSamples random points in a unit ball.
+            
+            Explanations
+            ------------
+                The algorithm is according to Theorem 1 of https://arxiv.org/pdf/math/0503650.pdf 
+            """
+            x = np.random.normal(loc=0.0, scale=1.0, size=(numSamples, self.dim))
+            z = np.random.exponential(scale=1.0, size=(numSamples,))
+            d = (np.sum(np.square(x), axis=1) + z) ** 0.5
+            d = d[:, np.newaxis]
+            return x / d
+        
+        unit_sample = random_number_in_unit_ball()
+        sample = unit_sample * self.radius + self.center
         if self.isContinuous:
-            raise NotImplementedError
+            return sample.tolist()
         else:
-            raise NotImplementedError
+            sample_center_zero = sample - self.center
+            sample_center_zero_discrete = sample_center_zero.astype(int) # remove the decimal directly
+            sample_discrete = sample_center_zero_discrete + self.center
+            return sample_discrete
