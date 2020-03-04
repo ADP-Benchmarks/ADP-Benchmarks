@@ -122,8 +122,7 @@ class Cube(Space):
         
         '''
         TODO: 
-            I think this is kind of confusing. This function indicates that the state space and the action space 
-            are the same since they both use self.low and self.high to judge. But this might not be true.
+            I think this is kind of confusing. there is no 's' in this function.
         '''
         if isinstance(a, list):
             a = np.array(a)  
