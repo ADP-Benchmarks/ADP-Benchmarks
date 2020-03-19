@@ -79,6 +79,23 @@ class Space():
         """ 
         raise NotImplementedError
         
+    def isStateActionFeasble(self, s, a):
+        """
+        Inputs
+        ------
+            s [list]: the state vecor.
+            
+            a [list]: the action vector.
+            
+        Raises/Returns
+        --------------
+            [bool]: True if the provided action is feasible, False otherwise.
+            
+        Explanations
+        ------------
+            Checks if the current action is feasible in the given state
+        """ 
+        raise NotImplementedError
 
     def getObjectiveWithExoSamples(self,curState,curAction):
         """

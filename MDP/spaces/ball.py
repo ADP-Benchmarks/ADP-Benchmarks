@@ -16,6 +16,7 @@ License
 """
 
 from MDP.spaces.space import Space
+import numpy as np
 from numpy import ndarray
 from sampling.sampler import BallSampler
 
@@ -57,7 +58,7 @@ class Ball(Space):
         
         self.center = center
         self.radius = radius
-        
+        self.shape = center.shape
     
     def sample(self,numSamples=1):
         """
@@ -77,4 +78,43 @@ class Ball(Space):
         assert(isinstance(numSamples,int))
         return BallSampler(self).sample(numSamples)
         
+    def isStateFeasble(self, s):
+        """
+        Inputs
+        ------
+            s [list]: state vector.
+            
+        Raises/Returns
+        --------------
+            [bool]: True if the state is feasible, False otherwise.
+            
+        Explanations
+        ------------
+            Checks if the provided state is feasible in the MDP state space 
+        """ 
+        
+        s = np.array(s) if isinstance(s, list) else s
+        return s.shape == self.shape and np.sum(np.square(s - self.center)) <= self.radius ** 2
+
+    def isStateActionFeasble(self, s, a):
+        """
+        Inputs
+        ------
+            s [list]: the state vecor.
+            
+            a [list]: the action vector
+            
+        Raises/Returns
+        --------------
+            [bool]: True if the provided action is feasible, False otherwise.
+            
+        Explanations
+        ------------
+            Checks if the current action is feasible in the given state
+        """ 
+        if isinstance(a, list):
+            a = np.array(a)  
+        elif isinstance(a, int):    
+            a = np.array([a])  
+        pass
         
